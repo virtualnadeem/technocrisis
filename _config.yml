@@ -1,5 +1,8 @@
 title: TechnoCrisis
 description: Real-time analysis of technology crises.
 url: https://technocrisis.com
+permalink: /:year/:month/:day/:title/
 markdown: kramdown
-permalink: /:categories/:year/:month/:day/:title/
+
+# Optional but nice:
+timezone: UTC
