@@ -5,12 +5,13 @@ layout: null
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
   <url>
-    <loc>{{ site.url }}/</loc>
+    <loc>https://technocrisis.com/</loc>
+    <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
   </url>
 
   {% for post in site.posts %}
   <url>
-    <loc>{{ site.url }}{{ post.url }}</loc>
+    <loc>https://technocrisis.com{{ post.url }}</loc>
     <lastmod>{{ post.date | date_to_xmlschema }}</lastmod>
   </url>
   {% endfor %}
