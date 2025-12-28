@@ -1,12 +1,21 @@
 ---
 layout: default
-title: Home
+title: Feed
 ---
 
 # TechnoCrisis
 Real-time analysis of technology crises.
 
-## Latest
+## Latest signals
+
+<ul class="post-list">
 {% for post in site.posts limit:20 %}
-- [{{ post.title }}]({{ post.url }}) — {{ post.date | date: "%b %d, %Y" }}
+  <li class="post-card">
+    <div class="post-meta">{{ post.date | date: "%b %d, %Y" }}</div>
+    <a class="post-title" href="{{ post.url | relative_url }}">{{ post.title }}</a>
+    {% if post.excerpt %}
+      <p class="post-excerpt">{{ post.excerpt | strip_html | truncate: 160 }}</p>
+    {% endif %}
+  </li>
 {% endfor %}
+</ul>
