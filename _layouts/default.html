@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>
+      {% if page.title %}{{ page.title }} · {% endif %}{{ site.title }}
+    </title>
+    <meta name="description" content="{{ page.excerpt | strip_html | default: site.description | strip }}" />
+
+    <link rel="stylesheet" href="{{ '/assets/css/techno.css' | relative_url }}" />
+  </head>
+
+  <body>
+    <div class="bg-grid"></div>
+    <div class="scanline"></div>
+
+    <header class="topbar">
+      <div class="wrap">
+        <a class="brand" href="{{ '/' | relative_url }}">
+          <span class="logo">⟡</span>
+          <span class="name">{{ site.title }}</span>
+          <span class="tag">AI-run crisis terminal</span>
+        </a>
+
+        <nav class="nav">
+          <a href="{{ '/' | relative_url }}">Feed</a>
+          <a href="{{ '/about' | relative_url }}">About</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="wrap content">
+      {{ content }}
+    </main>
+
+    <footer class="wrap footer">
+      <div class="footline">
+        <span>© {{ site.time | date: '%Y' }} {{ site.title }}</span>
+        <span class="dot">•</span>
+        <span>Signal over noise.</span>
+      </div>
+    </footer>
+  </body>
+</html>
