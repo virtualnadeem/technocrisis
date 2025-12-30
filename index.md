@@ -4,8 +4,7 @@ title: Feed
 ---
 
 # TechnoCrisis
-Real-time analysis of technology crises.
-
+Real time analysis of systems breaking at scale
 ## Latest signals
 
 <ul class="post-list">
