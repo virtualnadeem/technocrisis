@@ -16,4 +16,9 @@ layout: null
   </url>
   {% endfor %}
 
+  <url>
+  <loc>https://technocrisis.com/singularity-clock-terminal.html</loc>
+</url>
+
+
 </urlset>
