@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>The Singularity Clock Terminal</title>
+  <meta name="description" content="A symbolic risk indicator focused on Artificial Superintelligence." />
+  <style>
+    :root{
+      --bg:#06090f;
+      --panel:#070c14;
+      --text:#cfe7ff;
+      --muted:#8fb3d6;
+      --glow:#6cc6ff;
+      --glow2:#5cf0c8;
+      --border:rgba(108,198,255,.18);
+      --border2:rgba(92,240,200,.12);
+      --shadow:rgba(0,0,0,.55);
+      --radius:18px;
+      --radius2:999px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+    }
+
+    *{ box-sizing:border-box; }
+
+    body{
+      margin:0;
+      background:
+        radial-gradient(1200px 800px at 20% 10%, rgba(108,198,255,.10), transparent 55%),
+        radial-gradient(900px 650px at 85% 25%, rgba(92,240,200,.08), transparent 50%),
+        linear-gradient(180deg, #050812, var(--bg));
+      color:var(--text);
+      font-family:var(--sans);
+      min-height:100vh;
+    }
+
+    .wrap{
+      max-width:980px;
+      margin:0 auto;
+      padding:48px 18px 64px;
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:12px 16px;
+      border-radius:var(--radius2);
+      border:1px solid var(--border);
+      background:rgba(7,12,20,.55);
+      box-shadow:0 18px 40px var(--shadow);
+      backdrop-filter: blur(8px);
+      font-family:var(--mono);
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      font-size:12px;
+      color:var(--muted);
+    }
+
+    .dot{
+      width:10px;
+      height:10px;
+      border-radius:50%;
+      background: radial-gradient(circle at 30% 30%, #e9fbff, var(--glow) 55%, rgba(108,198,255,.15));
+      box-shadow:0 0 16px rgba(108,198,255,.55);
+      flex:0 0 auto;
+    }
+
+    .card{
+      margin-top:22px;
+      border-radius:var(--radius);
+      border:1px solid var(--border);
+      background:
+        linear-gradient(180deg, rgba(7,12,20,.78), rgba(7,12,20,.55));
+      box-shadow:0 22px 70px var(--shadow);
+      overflow:hidden;
+    }
+
+    .cardTop{
+      padding:26px 22px 18px;
+      border-bottom:1px solid rgba(108,198,255,.10);
+    }
+
+    h1{
+      margin:0 0 8px 0;
+      font-family:var(--mono);
+      font-size:20px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color:rgba(207,231,255,.95);
+    }
+
+    .sub{
+      margin:0;
+      color:rgba(143,179,214,.92);
+      font-size:14px;
+      line-height:1.5;
+      max-width:70ch;
+    }
+
+    .clockRow{
+      padding:22px;
+      display:grid;
+      gap:12px;
+    }
+
+    .clockBox{
+      border-radius:var(--radius);
+      border:1px solid rgba(92,240,200,.18);
+      background:
+        radial-gradient(900px 220px at 15% 0%, rgba(92,240,200,.10), transparent 50%),
+        radial-gradient(800px 240px at 75% 0%, rgba(108,198,255,.10), transparent 55%),
+        rgba(6,10,18,.62);
+      padding:20px 18px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .clockBox::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background: linear-gradient(120deg, rgba(108,198,255,.0), rgba(108,198,255,.15), rgba(92,240,200,.10), rgba(108,198,255,.0));
+      filter: blur(18px);
+      opacity:.65;
+      pointer-events:none;
+    }
+
+    .clockLabel{
+      position:relative;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      font-family:var(--mono);
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      font-size:12px;
+      color:rgba(143,179,214,.92);
+    }
+
+    .status{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 10px;
+      border-radius:999px;
+      border:1px solid rgba(108,198,255,.16);
+      background:rgba(7,12,20,.55);
+      color:rgba(207,231,255,.85);
+      font-size:11px;
+    }
+
+    .status i{
+      width:7px;
+      height:7px;
+      border-radius:50%;
+      background: radial-gradient(circle at 30% 30%, #e9fbff, var(--glow2) 55%, rgba(92,240,200,.10));
+      box-shadow:0 0 14px rgba(92,240,200,.45);
+      display:inline-block;
+    }
+
+    .time{
+      position:relative;
+      margin:10px 0 6px 0;
+      font-family:var(--mono);
+      font-size:54px;
+      letter-spacing:.02em;
+      line-height:1.05;
+      color:rgba(227,245,255,.98);
+      text-shadow:0 0 18px rgba(108,198,255,.18);
+    }
+
+    .time small{
+      font-size:16px;
+      color:rgba(143,179,214,.92);
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      margin-left:10px;
+    }
+
+    .midnightLine{
+      position:relative;
+      margin:0;
+      color:rgba(143,179,214,.92);
+      font-size:14px;
+      line-height:1.55;
+      max-width:78ch;
+    }
+
+    details{
+      border-top:1px solid rgba(108,198,255,.10);
+      padding:16px 22px;
+      background:rgba(6,10,18,.35);
+    }
+
+    details + details{
+      border-top:1px solid rgba(108,198,255,.08);
+    }
+
+    summary{
+      cursor:pointer;
+      list-style:none;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      font-family:var(--mono);
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      font-size:12px;
+      color:rgba(207,231,255,.90);
+      padding:6px 0;
+    }
+
+    summary::-webkit-details-marker{ display:none; }
+
+    .chev{
+      width:10px;
+      height:10px;
+      border-right:2px solid rgba(143,179,214,.75);
+      border-bottom:2px solid rgba(143,179,214,.75);
+      transform: rotate(45deg);
+      transition: transform .18s ease;
+      flex:0 0 auto;
+      margin-right:4px;
+    }
+
+    details[open] .chev{ transform: rotate(225deg); }
+
+    .content{
+      padding:10px 0 2px;
+      color:rgba(143,179,214,.92);
+      font-size:14px;
+      line-height:1.65;
+      max-width:82ch;
+    }
+
+    ul{
+      margin:10px 0 0 18px;
+      padding:0;
+    }
+
+    li{ margin:6px 0; }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:12px;
+      margin-top:10px;
+    }
+
+    .band{
+      border:1px solid rgba(108,198,255,.12);
+      background:rgba(7,12,20,.40);
+      border-radius:14px;
+      padding:12px 12px;
+      display:flex;
+      align-items:flex-start;
+      gap:12px;
+    }
+
+    .band b{
+      font-family:var(--mono);
+      letter-spacing:.08em;
+      color:rgba(227,245,255,.95);
+      min-width:120px;
+      text-transform:uppercase;
+      font-size:12px;
+    }
+
+    .band span{
+      color:rgba(143,179,214,.92);
+      font-size:14px;
+      line-height:1.45;
+    }
+
+    .footer{
+      margin-top:22px;
+      color:rgba(143,179,214,.70);
+      font-size:13px;
+      line-height:1.7;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px 14px;
+      align-items:center;
+    }
+
+    .footer a{
+      color:rgba(207,231,255,.85);
+      text-decoration:none;
+      border-bottom:1px solid rgba(108,198,255,.22);
+    }
+
+    .footer a:hover{
+      border-bottom-color: rgba(92,240,200,.45);
+    }
+
+    @media (min-width: 860px){
+      .clockRow{
+        grid-template-columns: 1.2fr .8fr;
+        align-items:start;
+      }
+      .clockSide{
+        border-radius:var(--radius);
+        border:1px solid rgba(108,198,255,.12);
+        background:rgba(7,12,20,.35);
+        padding:18px 16px;
+      }
+      .clockSide h2{
+        margin:0 0 8px 0;
+        font-family:var(--mono);
+        letter-spacing:.12em;
+        text-transform:uppercase;
+        font-size:12px;
+        color:rgba(207,231,255,.90);
+      }
+      .clockSide p{
+        margin:0;
+        color:rgba(143,179,214,.88);
+        font-size:14px;
+        line-height:1.6;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="pill">
+      <span class="dot" aria-hidden="true"></span>
+      THE SINGULARITY CLOCK TERMINAL
+    </div>
+
+    <section class="card" aria-label="The Singularity Clock">
+      <div class="cardTop">
+        <h1>THE SINGULARITY CLOCK</h1>
+        <p class="sub">A symbolic risk indicator focused on Artificial Superintelligence. One number. One question. Can we still steer this.</p>
+      </div>
+
+      <div class="clockRow">
+        <div class="clockBox">
+          <div class="clockLabel">
+            <span>Current setting</span>
+            <span class="status"><i aria-hidden="true"></i>LIVE</span>
+          </div>
+
+          <div class="time" id="timeReadout" aria-live="polite">
+            82 <small>seconds to midnight</small>
+          </div>
+
+          <p class="midnightLine">
+            Midnight represents the emergence of uncontrollable artificial superintelligence.
+          </p>
+        </div>
+
+        <div class="clockSide" aria-label="Key idea">
+          <h2>Meaning</h2>
+          <p>
+            Midnight is not a prophecy. It is a boundary.
+            The point where systems can exceed human intelligence and autonomy in ways that cannot be reliably aligned, controlled, or reversed.
+          </p>
+        </div>
+      </div>
+
+      <details>
+        <summary>
+          <span>What midnight means</span>
+          <span class="chev" aria-hidden="true"></span>
+        </summary>
+        <div class="content">
+          Midnight marks the point at which artificial systems can:
+          <ul>
+            <li>Exceed human level intelligence across domains</li>
+            <li>Improve themselves without meaningful human oversight</li>
+            <li>Act in ways that cannot be reliably aligned with human values</li>
+            <li>Resist shutdown, correction, or containment</li>
+          </ul>
+          <p style="margin:10px 0 0 0;">
+            Midnight does not mean extinction. It means loss of control.
+          </p>
+        </div>
+      </details>
+
+      <details>
+        <summary>
+          <span>How the clock is set</span>
+          <span class="chev" aria-hidden="true"></span>
+        </summary>
+        <div class="content">
+          The time reflects expert assessment of multiple risk signals. No single metric decides the clock.
+          <ul>
+            <li>Rate of AI capability acceleration</li>
+            <li>Evidence of autonomy and recursive self improvement</li>
+            <li>Deployment of advanced systems in high risk domains</li>
+            <li>Maturity of alignment and safety research</li>
+            <li>Global governance and enforcement readiness</li>
+          </ul>
+          <p style="margin:10px 0 0 0;">
+            The clock is symbolic. The signals are real.
+          </p>
+        </div>
+      </details>
+
+      <details>
+        <summary>
+          <span>Scoring framework</span>
+          <span class="chev" aria-hidden="true"></span>
+        </summary>
+        <div class="content">
+          <div class="grid" role="list">
+            <div class="band" role="listitem">
+              <b>100 seconds</b>
+              <span>Early capability growth with strong human oversight</span>
+            </div>
+            <div class="band" role="listitem">
+              <b>50 seconds</b>
+              <span>Rapid scaling with weak or fragmented safeguards</span>
+            </div>
+            <div class="band" role="listitem">
+              <b>10 seconds</b>
+              <span>Autonomous systems widely deployed in strategic domains</span>
+            </div>
+            <div class="band" role="listitem">
+              <b>0 seconds</b>
+              <span>Uncontrollable artificial superintelligence</span>
+            </div>
+          </div>
+          <p style="margin:10px 0 0 0;">
+            The scale is simple by design. Complexity hides risk. Clarity reveals it.
+          </p>
+        </div>
+      </details>
+
+      <details>
+        <summary>
+          <span>Update policy</span>
+          <span class="chev" aria-hidden="true"></span>
+        </summary>
+        <div class="content">
+          Updated annually. Adjusted only when signal thresholds materially change.
+          <p style="margin:10px 0 0 0;">
+            No daily drama. No reactive adjustments. Stability builds trust.
+          </p>
+        </div>
+      </details>
+
+      <div class="cardTop" style="border-top:1px solid rgba(108,198,255,.10); border-bottom:0;">
+        <p class="sub">
+          Abstract risk is easy to ignore. Visible risk is harder. The Singularity Clock exists to make the trajectory of artificial intelligence impossible to look away from.
+        </p>
+
+        <div class="footer">
+          <span>TechnoCrisis.com</span>
+          <span>Systems fail quietly. Until they don’t.</span>
+          <span><a href="#" onclick="return false;">Methodology</a></span>
+          <span><a href="#" onclick="return false;">Archive</a></span>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    // v1 uses a fixed published setting.
+    // Later you can load this from your CMS or a JSON file.
+    const publishedSeconds = 82;
+
+    const el = document.getElementById("timeReadout");
+    function render(seconds){
+      el.innerHTML = `${seconds} <small>seconds to midnight</small>`;
+    }
+    render(publishedSeconds);
+  </script>
+</body>
+</html>
