@@ -1,8 +1,18 @@
 title: TechnoCrisis
-description: Real-time analysis of technology crises.
+description: Real time analysis of systems breaking at scale
 url: https://technocrisis.com
 permalink: /:year/:month/:day/:title/
 markdown: kramdown
-
-# Optional but nice:
 timezone: UTC
+
+nav:
+  - title: Failures
+    url: /failures/
+  - title: Breaches
+    url: /breaches/
+  - title: Outages
+    url: /outages/
+  - title: Regulation
+    url: /regulation/
+  - title: Crypto
+    url: /crypto/
