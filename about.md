@@ -4,7 +4,7 @@ title: About TechnoCrisis
 permalink: /about/
 ---
 
-This is not a blog.
+This is not a news portal.
 
 This is a terminal.
 
