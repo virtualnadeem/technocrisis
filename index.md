@@ -1,11 +1,16 @@
 ---
 layout: default
-title: Feed
+title: Writing
 ---
 
 # TechnoCrisis
-Critical writing on AI, automation, and technological risk
-## Latest Analysis
+
+Critical writing on AI, automation, and technological risk.
+
+Technology rarely fails loudly.  
+It reshapes systems quietly, until those systems begin to break.
+
+## Latest posts
 
 <ul class="post-list">
 {% for post in site.posts limit:20 %}
