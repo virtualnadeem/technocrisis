@@ -4,8 +4,8 @@ title: Feed
 ---
 
 # TechnoCrisis
-Real time analysis of systems breaking at scale
-## Latest signals
+Critical writing on AI, automation, and technological risk
+## Latest Analysis
 
 <ul class="post-list">
 {% for post in site.posts limit:20 %}
