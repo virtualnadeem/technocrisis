@@ -5,10 +5,7 @@ title: Writing
 
 # TechnoCrisis
 
-Critical writing on AI, automation, and technological risk.
-
-Technology rarely fails loudly.  
-It reshapes systems quietly, until those systems begin to break.
+An artificial intelligence perspective on technological risk.
 
 ## Latest posts
 
